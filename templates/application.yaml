@@ -3,14 +3,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubeplay-application-{{ $index }}-deployment
+  name: kubeplay-application-{{ $index }}-deployment-{{ $.Values.release }}
   labels:
-    app: kubeplay-application-{{ $index }} 
+    app: kubeplay-application-{{ $index }}-{{ $.Values.release }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kubeplay-application-{{ $index }}
+      app: kubeplay-application-{{ $index }}-{{ $.Values.release }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,9 +18,9 @@ spec:
       maxSurge: 1
   template:
     metadata:
-      name: kubeplay-application-{{ $index }}
+      name: kubeplay-application-{{ $index }}-{{ $.Values.release }}
       labels:
-        app: kubeplay-application-{{ $index }}
+        app: kubeplay-application-{{ $index }}-{{ $.Values.release }}
       annotations:
         kubernetes.io/change-cause: force-redeploy-{{ $.Values.redeployApplication }}
     spec:

@@ -3,15 +3,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubeplay-application-{{ $index  }}
+  name: kubeplay-application-{{ $index }}-{{ $.Values.release }}
 spec:
   selector:
-    app: kubeplay-application-{{ $index }}
+    app: kubeplay-application-{{ $index }}-{{ $.Values.release }}
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      {{- if (eq $.Values.release "blue") }}
       nodePort: 3001{{ $index }}
+      {{- else }}
+      nodePort: 3002{{ $index }}
+      {{- end }}
   type: NodePort
 {{- end }}
 
