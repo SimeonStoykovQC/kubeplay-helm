@@ -1,0 +1,17 @@
+{{- range $index, $application := .Values.applications }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeplay-application-{{ $index  }}
+spec:
+  selector:
+    app: kubeplay-application-{{ $index }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 3001{{ $index }}
+  type: NodePort
+{{- end }}
+
